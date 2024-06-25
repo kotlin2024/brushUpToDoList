@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+  datasource:
+    url: jdbc:postgresql://aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres
+    username: postgres.psvxzenvipnnptybyojf
+    password: nmA9Cute1XQAxmXn
+
+
+auth:
+  jwt:
+    issuer: team.HJP.com
+    secret: PO4c8z41Hia5gJG3oeuFJMRYBB4Ws4aZ
