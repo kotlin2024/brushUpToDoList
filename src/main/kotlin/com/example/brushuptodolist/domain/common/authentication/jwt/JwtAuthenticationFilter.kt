@@ -25,9 +25,6 @@ class JwtAuthenticationFilter(
         if(request.getHeader(AUTHORIZATION)!=null && request.getHeader(AUTHORIZATION).startsWith("Bearer ")){
             pureToken= request.getHeader("Authorization").substring(7)
         }
-        else{
-            throw RuntimeException("토큰이 null이거나 Bearer로 시작하지 않음") //TODO 예외처리하기
-        }
 
         if(pureToken!= null){
             jwtTokenManager.validateToken(pureToken).onSuccess {

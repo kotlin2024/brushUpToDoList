@@ -1,7 +1,9 @@
 package com.example.brushuptodolist.domain.common.authentication.controller
 
 import com.example.brushuptodolist.domain.common.authentication.dto.LoginRequest
+import com.example.brushuptodolist.domain.common.authentication.dto.SignUpRequest
 import com.example.brushuptodolist.domain.common.authentication.service.SignUpAndLoginService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,8 +16,8 @@ class SignUpAndLoginController(
 
 
     @PostMapping("/sign-up")
-    fun signUp(): ResponseEntity<String> =
-        ResponseEntity.status(HttpStatus.OK).body(signUpAndLoginService.signUp())
+    fun signUp(@Valid @RequestBody signUpRequest: SignUpRequest): ResponseEntity<String> =
+        ResponseEntity.status(HttpStatus.OK).body(signUpAndLoginService.signUp(signUpRequest))
 
 
     @PostMapping("/login")

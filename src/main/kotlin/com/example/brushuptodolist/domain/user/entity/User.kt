@@ -14,13 +14,16 @@ class User(
     @Column(name="user_email")
     val userEmail: String,
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? =null
+    @Column(name="user_password")
+    val userPassword: String,
 
 ){
-    fun User.toResponse(): UserResponse= UserResponse(
-        username = username,
-        userEmail= userEmail
-    )
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val userId: Long? =null
+
 
 }
+fun User.toResponse(): UserResponse= UserResponse(
+    username = username,
+    userEmail= userEmail,
+)
