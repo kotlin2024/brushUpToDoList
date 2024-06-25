@@ -1,14 +1,14 @@
 package com.example.brushuptodolist.domain.common.authentication.service
 
 import com.example.brushuptodolist.domain.common.authentication.dto.LoginRequest
-import com.example.brushuptodolist.domain.common.authentication.jwt.jwtTokenManager
+import com.example.brushuptodolist.domain.common.authentication.jwt.JwtTokenManager
 import com.example.brushuptodolist.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SignUpAndLoginService(
-    private val jwtTokenManager: jwtTokenManager,
+    private val jwtTokenManager: JwtTokenManager,
     private val userRepository: UserRepository
 ) {
 

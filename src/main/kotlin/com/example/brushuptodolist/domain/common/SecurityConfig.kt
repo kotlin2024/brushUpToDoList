@@ -1,5 +1,6 @@
 package com.example.brushuptodolist.domain.common
 
+import com.example.brushuptodolist.domain.common.authentication.jwt.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -11,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
 
 ) {
 
@@ -29,7 +31,7 @@ class SecurityConfig(
                 ).permitAll()
                     .anyRequest().authenticated()
             }
-            //.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }
 }
