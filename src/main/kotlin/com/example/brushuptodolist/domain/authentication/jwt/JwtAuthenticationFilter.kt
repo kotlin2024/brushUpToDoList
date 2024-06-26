@@ -29,9 +29,11 @@ class JwtAuthenticationFilter(
         if(pureToken!= null){
             jwtTokenManager.validateToken(pureToken).onSuccess {
 
+
+
                 val userEmail = it.payload.subject
-                val userName = it.payload.get("userName",String::class.java)
-                val userRole= it.payload.get("userRole",String::class.java)
+                val userName = it.payload["userName"] as String
+                val userRole= it.payload["userRole"] as String
 
                 val userPrincipal= UserPrincipal(userName= userName, userRole= setOf(userRole) , userEmail = userEmail)
                 val authentication = JwtAuthenticationToken(

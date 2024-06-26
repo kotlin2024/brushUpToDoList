@@ -1,6 +1,8 @@
 package com.example.brushuptodolist.domain.api.post.controller
 
 import com.example.brushuptodolist.domain.api.post.dto.PostResponse
+import com.example.brushuptodolist.domain.api.post.dto.UpdatePostRequest
+import com.example.brushuptodolist.domain.api.post.entity.Post
 import com.example.brushuptodolist.domain.api.post.service.PostService
 import org.apache.coyote.Response
 import org.springframework.http.HttpStatus
@@ -26,13 +28,13 @@ class PostController(
 
 
     @PostMapping
-    fun createPost(): ResponseEntity<String> =
-        ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost())
+    fun createPost(@RequestBody createPostRequest: UpdatePostRequest): ResponseEntity<PostResponse> =
+        ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(createPostRequest))
 
 
     @PutMapping("/{postId}")
-    fun updatePost(@PathVariable postId: Long): ResponseEntity<String> =
-        ResponseEntity.status(HttpStatus.OK).body(postService.updatePost(postId))
+    fun updatePost(@PathVariable postId: Long, @RequestBody updatePostRequest: UpdatePostRequest): ResponseEntity<PostResponse> =
+        ResponseEntity.status(HttpStatus.OK).body(postService.updatePost(postId, updatePostRequest ))
 
 
     @DeleteMapping("/{postId}")
