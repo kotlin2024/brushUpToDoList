@@ -1,4 +1,4 @@
-package com.example.brushuptodolist.domain.common.authentication.jwt
+package com.example.brushuptodolist.domain.authentication.jwt
 
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.web.authentication.WebAuthenticationDetails

@@ -1,4 +1,4 @@
-package com.example.brushuptodolist.domain.common.authentication.jwt
+package com.example.brushuptodolist.domain.authentication.jwt
 
 import com.example.brushuptodolist.domain.user.dto.UserRole
 import io.jsonwebtoken.Claims

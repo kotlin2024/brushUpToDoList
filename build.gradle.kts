@@ -43,6 +43,10 @@ dependencies {
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0") //swagger 의존성
 
+    implementation("org.springframework.boot:spring-boot-starter-validation") //validation 추가
+
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+
     implementation("io.jsonwebtoken:jjwt-api:0.12.3")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")

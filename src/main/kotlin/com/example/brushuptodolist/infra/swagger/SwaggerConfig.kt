@@ -1,4 +1,4 @@
-package com.example.brushuptodolist.domain.common
+package com.example.brushuptodolist.infra.swagger
 
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI

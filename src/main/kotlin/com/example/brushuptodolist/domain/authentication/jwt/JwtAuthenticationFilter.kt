@@ -1,4 +1,4 @@
-package com.example.brushuptodolist.domain.common.authentication.jwt
+package com.example.brushuptodolist.domain.authentication.jwt
 
 
 import jakarta.servlet.FilterChain

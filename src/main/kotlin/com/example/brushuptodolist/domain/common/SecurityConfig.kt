@@ -1,6 +1,6 @@
 package com.example.brushuptodolist.domain.common
 
-import com.example.brushuptodolist.domain.common.authentication.jwt.JwtAuthenticationFilter
+import com.example.brushuptodolist.domain.authentication.jwt.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
 
-) {
+    ) {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -27,7 +27,7 @@ class SecurityConfig(
                 it.requestMatchers(
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
-                    "/api/authentication/**"
+                    "/authentication/**"
                 ).permitAll()
                     .anyRequest().authenticated()
             }
