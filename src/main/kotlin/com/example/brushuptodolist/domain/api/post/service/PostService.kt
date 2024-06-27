@@ -6,7 +6,6 @@ import com.example.brushuptodolist.domain.api.post.entity.Post
 import com.example.brushuptodolist.domain.api.post.entity.toResponse
 import com.example.brushuptodolist.domain.api.post.repository.PostRepository
 import com.example.brushuptodolist.domain.authentication.jwt.UserPrincipal
-import com.example.brushuptodolist.domain.common.exception.ModelNotFoundException
 import com.example.brushuptodolist.domain.user.repository.UserRepository
 import com.example.brushuptodolist.infra.aop.ValidationPost
 import org.springframework.security.core.context.SecurityContextHolder
@@ -49,8 +48,7 @@ class PostService(
     @Transactional
     fun updatePost(postId: Long, updatePostRequest: UpdatePostRequest): PostResponse {
 
-
-        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
+        val userPrincipal= SecurityContextHolder.getContext().authentication.principal as UserPrincipal
         val user = userRepository.findByUserEmail(userPrincipal.userEmail)
 
         val post = postRepository.findByPostId(postId) ?: throw RuntimeException("Post가 존재하지 않음")

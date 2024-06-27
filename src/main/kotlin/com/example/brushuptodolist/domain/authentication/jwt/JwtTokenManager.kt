@@ -22,11 +22,13 @@ class JwtTokenManager(
 
         val key =  Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
 
+        val expirationTimeInMillis = 24 * 60 * 60 * 1000
+
         return Jwts.builder()
             .claims(claims)
             .subject(userEmail)
             .issuer(issuer)
-            .expiration(Date(System.currentTimeMillis() + 3600 * 24))
+            .expiration(Date(System.currentTimeMillis() + expirationTimeInMillis))
             .signWith(key).compact()
 
     }

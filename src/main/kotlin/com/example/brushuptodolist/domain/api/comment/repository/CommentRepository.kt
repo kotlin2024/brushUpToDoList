@@ -8,6 +8,6 @@ interface CommentRepository: JpaRepository<Comment, Long> {
 
     fun findAllByPost(post: Post): List<Comment>
 
-    fun findByPostAndCommentId( post: Post, commentId: Long): Comment
+    fun findByCommentId( commentId: Long): Comment
 
 }

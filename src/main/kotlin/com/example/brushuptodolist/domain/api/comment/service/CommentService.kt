@@ -38,7 +38,7 @@ class CommentService(
         val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
         val user = userRepository.findByUserEmail(userPrincipal.userEmail)
 
-        val commentUser = commentRepository.findByPostAndCommentId(post, commentId)
+        val commentUser = commentRepository.findByCommentId(commentId = commentId) ?: throw RuntimeException("dafs")
 
         if(user != commentUser.user) throw RuntimeException("해당 post에 당신이 작성한 댓글이 아닙니다")
 
@@ -81,7 +81,7 @@ class CommentService(
 
         val user = userRepository.findByUserEmail(userPrincipal.userEmail)
 
-        val commentUser = commentRepository.findByPostAndCommentId(post, commentId)
+        val commentUser = commentRepository.findByCommentId(commentId)
 
         commentRepository.delete(commentUser)
 
