@@ -8,6 +8,7 @@ import com.example.brushuptodolist.domain.api.post.repository.PostRepository
 import com.example.brushuptodolist.domain.authentication.jwt.UserPrincipal
 import com.example.brushuptodolist.domain.common.exception.ModelNotFoundException
 import com.example.brushuptodolist.domain.user.repository.UserRepository
+import com.example.brushuptodolist.infra.aop.ValidationPost
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,14 +21,15 @@ class PostService(
 
 
     fun readAllPost():List<PostResponse> {
-        TODO()
-
+        val postList = postRepository.findAll()
+        return postList.map{it.toResponse()}
     }
 
-    fun readPostById(postId: Long): PostResponse{
-        TODO()
-    }
+    fun readPostById(postId: Long): PostResponse =
+        postRepository.findByPostId(postId)!!.toResponse()
 
+
+    @ValidationPost
     @Transactional
     fun createPost(createPostRequest: UpdatePostRequest): PostResponse{
 
@@ -43,25 +45,37 @@ class PostService(
         ).toResponse()
     }
 
+    @ValidationPost
     @Transactional
     fun updatePost(postId: Long, updatePostRequest: UpdatePostRequest): PostResponse {
 
-        val userPrincipal= SecurityContextHolder.getContext().authentication.principal as UserPrincipal
-        val user= userRepository.findByUserEmail(userPrincipal.userEmail)
 
-        val post = postRepository.findByPostId(postId)
+        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
+        val user = userRepository.findByUserEmail(userPrincipal.userEmail)
 
-        if(user!=post.user) throw RuntimeException("당신이 작성한 게시글이 아님")
+        val post = postRepository.findByPostId(postId) ?: throw RuntimeException("Post가 존재하지 않음")
+
+        if (user != post.user) throw RuntimeException("당신이 작성한 게시글이 아님")
 
         post.title = updatePostRequest.title
         post.description = updatePostRequest.description
 
         return postRepository.save(post).toResponse()
+
     }
 
     @Transactional
-    fun deletePost(postId: Long): String {
+    fun deletePost(postId: Long){
 
-        TODO()
+        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
+
+        val user =  userRepository.findByUserEmail(userPrincipal.userEmail)
+
+        val post = postRepository.findByPostId(postId) ?: throw RuntimeException("Post가 존재하지 않음")
+
+        if(user!=post.user) throw RuntimeException("당신이 작성한 게시글이 아님")
+
+        postRepository.delete(post)
+
     }
 }

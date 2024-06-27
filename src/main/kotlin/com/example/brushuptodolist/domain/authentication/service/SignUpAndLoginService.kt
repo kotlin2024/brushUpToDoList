@@ -19,7 +19,7 @@ class SignUpAndLoginService(
     private val passwordEncoder: PasswordEncoder,
 ) {
 
-    @ValidationSignUp //요기서 비밀번호가 이메일과 같은지, 입력한 비밀번호와 체크한 비밀번호가 같은지, 동일한 유저이름이 있는지에 대한 검증이 이루어짐
+    @ValidationSignUp
     @Transactional
     fun signUp(signUpRequest: SignUpRequest):String{
 

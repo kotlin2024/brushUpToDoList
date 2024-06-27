@@ -19,7 +19,7 @@ class PostController(
 
     @GetMapping
     fun readAllPost(): ResponseEntity<List<PostResponse>> =
-        ResponseEntity.status(HttpStatus.OK).body(postService.readAllPost()) // 지금 리스트 몽땅 가져왔는데 map안해도 될려나
+        ResponseEntity.status(HttpStatus.OK).body(postService.readAllPost())
 
 
     @GetMapping("/{postId}")
@@ -38,7 +38,6 @@ class PostController(
 
 
     @DeleteMapping("/{postId}")
-    fun deletePost(@PathVariable postId: Long): ResponseEntity<String> =
+    fun deletePost(@PathVariable postId: Long): ResponseEntity<Unit> =
         ResponseEntity.status(HttpStatus.NO_CONTENT).body(postService.deletePost(postId))
-
 }

@@ -1,5 +1,6 @@
 package com.example.brushuptodolist.infra.aop
 
+import com.example.brushuptodolist.domain.api.post.dto.UpdatePostRequest
 import com.example.brushuptodolist.domain.authentication.dto.SignUpRequest
 import com.example.brushuptodolist.domain.user.repository.UserRepository
 import org.aspectj.lang.JoinPoint
@@ -35,4 +36,28 @@ class AopAspect(
         }
 
     }
+
+
+    @Before("@annotation(com.example.brushuptodolist.infra.aop.ValidationPost)")
+    fun validationPostAspect(joinPoint: JoinPoint){
+
+        val args = joinPoint.args
+
+        val updatePostRequest = args.find {it is UpdatePostRequest} as UpdatePostRequest
+
+        if(updatePostRequest.title.isEmpty() || updatePostRequest.description.isEmpty()){
+            throw RuntimeException("제목이나 내용에 공백이 있으면 안됩니다.")
+        }
+
+
+        if( updatePostRequest.title.length > 500) {
+            throw RuntimeException("제목은 500자 이하로 입력해주세요.")
+        }
+
+        if(updatePostRequest.description.length > 5000){
+            throw RuntimeException("내용은 5000자 이하로 작성해주세요.")
+        }
+
+    }
+
 }

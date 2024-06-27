@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface PostRepository: JpaRepository<Post,Long> {
 
-    fun findByPostId(postId: Long): Post
+    fun findByPostId(postId: Long): Post?
+
+
 }
