@@ -1,5 +1,6 @@
 package com.example.brushuptodolist.domain.api.post.entity
 
+import com.example.brushuptodolist.domain.api.comment.entity.Comment
 import com.example.brushuptodolist.domain.api.post.dto.PostResponse
 import com.example.brushuptodolist.domain.user.entity.User
 import jakarta.persistence.*
@@ -22,7 +23,10 @@ class Post(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    val user: User
+    val user: User,
+
+    @OneToMany(mappedBy = "post",cascade = [(CascadeType.ALL)], orphanRemoval = true)
+    val comments: MutableList<Comment> = mutableListOf()
 
 
 ){
