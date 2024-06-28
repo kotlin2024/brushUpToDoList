@@ -10,6 +10,7 @@ import com.example.brushuptodolist.domain.user.repository.UserRepository
 import com.example.brushuptodolist.infra.aop.ValidationPost
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 class PostService(
@@ -18,9 +19,8 @@ class PostService(
     private val getCurrentUser: GetCurrentUser,
 ) {
 
-
     fun readAllPost():List<PostResponse> {
-        val postList = postRepository.findAll()
+        val postList = postRepository.findAllByOrderByCreatedAtDesc()
         return postList.map{it.toResponse()}
     }
 
@@ -57,6 +57,7 @@ class PostService(
 
         post.title = updatePostRequest.title
         post.description = updatePostRequest.description
+        post.updatedAt= LocalDateTime.now()
 
         return postRepository.save(post).toResponse()
 

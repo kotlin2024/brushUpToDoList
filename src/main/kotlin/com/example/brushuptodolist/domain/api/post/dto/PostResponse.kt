@@ -8,6 +8,6 @@ data class PostResponse(
     val postUserName:String,
     val title:String,
     val description:String,
-    val createdAt: LocalDateTime,
-//    var updatedAt: LocalDateTime,
+    val createdAt: String,
+    var updatedAt: String?,
 )

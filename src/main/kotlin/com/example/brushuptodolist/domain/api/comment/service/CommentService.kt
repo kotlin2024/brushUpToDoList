@@ -10,6 +10,7 @@ import com.example.brushuptodolist.domain.common.GetCurrentUser
 import com.example.brushuptodolist.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 class CommentService(
@@ -35,13 +36,14 @@ class CommentService(
 
         val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post 입니다")
 
-        val user= getCurrentUser.getCurrentUser()
+        val user= getCurrentUser.getCurrentUser() ?:throw RuntimeException(" 인증되지 않은 유저")
 
         val commentUser = commentRepository.findByCommentId(commentId = commentId) ?: throw RuntimeException("dafs")
 
         if(user != commentUser.user) throw RuntimeException("해당 post에 당신이 작성한 댓글이 아닙니다")
 
         commentUser.commentDescription = updateCommentRequest.commentDescription
+        commentUser.commentUpdatedAt = LocalDateTime.now()
 
         return commentRepository.save(commentUser).toResponse()
 
@@ -53,7 +55,7 @@ class CommentService(
         updateCommentRequest: UpdateCommentRequest
     ): CommentResponse{
 
-        val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post 입니다") //TODO() 해당 예외처리와 더불어 NULL CHECKING 해야함
+        val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post 입니다")
 
         val user = getCurrentUser.getCurrentUser()
 
@@ -74,11 +76,11 @@ class CommentService(
         commentId: Long
     ){
 
-        val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post 입니다") //TODO() 해당 예외처리와 더불어 NULL CHECKING 해야함
+        val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post 입니다")
 
-        val user= getCurrentUser.getCurrentUser()
+        val user= getCurrentUser.getCurrentUser() ?:throw RuntimeException(" 인증되지 않은 유저")
 
-        val commentUser = commentRepository.findByCommentId(commentId)
+        val commentUser = commentRepository.findByCommentId(commentId)?: throw RuntimeException("해당 댓글이 존재하지 않습니다")
 
         if(user != commentUser.user) throw RuntimeException("당신이 작성한 댓글이 아닙니다.")
 

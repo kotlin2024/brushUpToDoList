@@ -6,6 +6,7 @@ import com.example.brushuptodolist.domain.user.entity.User
 import jakarta.persistence.*
 
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @Entity
@@ -36,9 +37,13 @@ class Comment(
     @Column(name= "comment_created_at")
     var commentCreatedAt: LocalDateTime? = null
 
+    @Column(name= "comment_updated_at")
+    var commentUpdatedAt: LocalDateTime? = null
+
     @PrePersist
     fun prePersist(){
         commentCreatedAt = LocalDateTime.now()
+        commentUpdatedAt = null
     }
 }
 
@@ -47,6 +52,7 @@ fun Comment.toResponse(): CommentResponse = CommentResponse(
     commentId = commentId!!,
     commenterName = commenterName,
     commentDescription = commentDescription,
-    commentCreatedAt = commentCreatedAt!!,
+    commentCreatedAt = commentCreatedAt!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+    commentUpdatedAt = commentUpdatedAt?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
 
 )

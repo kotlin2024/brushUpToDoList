@@ -5,6 +5,7 @@ import com.example.brushuptodolist.domain.api.post.dto.PostResponse
 import com.example.brushuptodolist.domain.user.entity.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @Entity
@@ -36,28 +37,26 @@ class Post(
     @Column(name ="created_at")
     var createdAt: LocalDateTime? = null
 
-//    @Column(name ="updated_at")
-//    var updatedAt: LocalDateTime? = null
+    @Column(name ="updated_at")
+    var updatedAt: LocalDateTime? = null
 
     @PrePersist
     fun prePersist(){
         createdAt = LocalDateTime.now()
-//        updatedAt = null
+        updatedAt = null
     }
 
-//    @PreUpdate
-//    fun preUpdate(){
-//        updatedAt = LocalDateTime.now()
-//    }
 
 }
 
 fun Post.toResponse(): PostResponse =
+
     PostResponse(
         postId = postId!!,
         postUserName = postUserName,
         title = title,
         description = description,
-        createdAt =  createdAt!!,
-//        updatedAt = updatedAt
+        createdAt =  createdAt!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+        updatedAt = updatedAt?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
     )
+

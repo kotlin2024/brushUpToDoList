@@ -8,5 +8,6 @@ data class CommentResponse(
     val commentId: Long,
     val commenterName: String,
     val commentDescription: String,
-    val commentCreatedAt: LocalDateTime,
+    val commentCreatedAt: String,
+    var commentUpdatedAt: String?
 )

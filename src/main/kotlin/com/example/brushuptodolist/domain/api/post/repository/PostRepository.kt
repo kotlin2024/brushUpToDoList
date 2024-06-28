@@ -7,5 +7,6 @@ interface PostRepository: JpaRepository<Post,Long> {
 
     fun findByPostId(postId: Long): Post?
 
+    fun findAllByOrderByCreatedAtDesc() : List<Post>
 
 }
