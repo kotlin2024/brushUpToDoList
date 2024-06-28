@@ -28,6 +28,7 @@ class Comment(
     val post: Post
 
 
+
 ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var commentId: Long? =null

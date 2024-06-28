@@ -6,9 +6,8 @@ import com.example.brushuptodolist.domain.api.comment.entity.Comment
 import com.example.brushuptodolist.domain.api.comment.entity.toResponse
 import com.example.brushuptodolist.domain.api.comment.repository.CommentRepository
 import com.example.brushuptodolist.domain.api.post.repository.PostRepository
-import com.example.brushuptodolist.domain.authentication.jwt.UserPrincipal
+import com.example.brushuptodolist.domain.common.GetCurrentUser
 import com.example.brushuptodolist.domain.user.repository.UserRepository
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,6 +16,7 @@ class CommentService(
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
     private val userRepository: UserRepository,
+    private val getCurrentUser: GetCurrentUser,
 ) {
 
     fun readComment(postId:Long): List<CommentResponse>{
@@ -35,8 +35,7 @@ class CommentService(
 
         val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post 입니다")
 
-        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
-        val user = userRepository.findByUserEmail(userPrincipal.userEmail)
+        val user= getCurrentUser.getCurrentUser()
 
         val commentUser = commentRepository.findByCommentId(commentId = commentId) ?: throw RuntimeException("dafs")
 
@@ -53,11 +52,10 @@ class CommentService(
         postId: Long,
         updateCommentRequest: UpdateCommentRequest
     ): CommentResponse{
+
         val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post 입니다") //TODO() 해당 예외처리와 더불어 NULL CHECKING 해야함
 
-        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
-
-        val user = userRepository.findByUserEmail(userPrincipal.userEmail)
+        val user = getCurrentUser.getCurrentUser()
 
         return commentRepository.save(
             Comment(
@@ -73,18 +71,18 @@ class CommentService(
     @Transactional
     fun deleteComment(
         postId: Long,
-        commentId: Long){
+        commentId: Long
+    ){
 
         val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post 입니다") //TODO() 해당 예외처리와 더불어 NULL CHECKING 해야함
 
-        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
-
-        val user = userRepository.findByUserEmail(userPrincipal.userEmail)
+        val user= getCurrentUser.getCurrentUser()
 
         val commentUser = commentRepository.findByCommentId(commentId)
+
+        if(user != commentUser.user) throw RuntimeException("당신이 작성한 댓글이 아닙니다.")
 
         commentRepository.delete(commentUser)
 
     }
-    //TODO() post, userPrincipal,user 지금 계속 반복되니 하나의 class로 만들어서 코드 간단하게 만드는거 해보기
 }
