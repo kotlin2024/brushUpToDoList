@@ -1,5 +1,6 @@
 package com.example.brushuptodolist.domain.api.post.service
 
+import com.example.brushuptodolist.domain.api.post.dto.PostPageResponse
 import com.example.brushuptodolist.domain.api.post.dto.PostResponse
 import com.example.brushuptodolist.domain.api.post.dto.UpdatePostRequest
 import com.example.brushuptodolist.domain.api.post.entity.Post
@@ -8,6 +9,8 @@ import com.example.brushuptodolist.domain.api.post.repository.PostRepository
 import com.example.brushuptodolist.domain.common.GetCurrentUser
 import com.example.brushuptodolist.domain.user.repository.UserRepository
 import com.example.brushuptodolist.infra.aop.ValidationPost
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -19,8 +22,8 @@ class PostService(
     private val getCurrentUser: GetCurrentUser,
 ) {
 
-    fun readAllPost():List<PostResponse> {
-        val postList = postRepository.findAllByOrderByCreatedAtDesc()
+    fun readAllPost(pageable: Pageable):List<PostResponse> {
+        val postList = postRepository.findAllByOrderByCreatedAtDesc(pageable)
         return postList.map{it.toResponse()}
     }
 
@@ -75,4 +78,17 @@ class PostService(
         postRepository.delete(post)
 
     }
+
+    fun <T, R> Page<T>.toPostPageResponse(transform: (T) -> R): PostPageResponse<R> {
+        return PostPageResponse(
+            content = this.content.map(transform),
+            pageNumber = this.number,
+            pageSize = this.size,
+            totalElements = this.totalElements,
+            totalPages = this.totalPages,
+            isLast = this.isLast
+        )
+    }
+
+
 }

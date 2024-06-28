@@ -1,13 +1,17 @@
 package com.example.brushuptodolist.domain.api.comment.service
 
+import com.example.brushuptodolist.domain.api.comment.dto.CommentPageResponse
 import com.example.brushuptodolist.domain.api.comment.dto.CommentResponse
 import com.example.brushuptodolist.domain.api.comment.dto.UpdateCommentRequest
 import com.example.brushuptodolist.domain.api.comment.entity.Comment
 import com.example.brushuptodolist.domain.api.comment.entity.toResponse
 import com.example.brushuptodolist.domain.api.comment.repository.CommentRepository
+import com.example.brushuptodolist.domain.api.post.dto.PostPageResponse
 import com.example.brushuptodolist.domain.api.post.repository.PostRepository
 import com.example.brushuptodolist.domain.common.GetCurrentUser
 import com.example.brushuptodolist.domain.user.repository.UserRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -20,11 +24,12 @@ class CommentService(
     private val getCurrentUser: GetCurrentUser,
 ) {
 
-    fun readComment(postId:Long): List<CommentResponse>{
+    fun readComment(postId:Long, pageable: Pageable): List<CommentResponse>{
 
         val post = postRepository.findByPostId(postId) ?: throw RuntimeException("존재하지 않는 post입니다")
 
-        return commentRepository.findAllByPost(post).map{it.toResponse()}
+
+        return commentRepository.findAllByPostOrderByCommentCreatedAtDesc(post =post, pageable = pageable).map{it.toResponse()}
     }
 
     @Transactional
@@ -87,4 +92,16 @@ class CommentService(
         commentRepository.delete(commentUser)
 
     }
+
+    fun <T, R> Page<T>.toCommentPageResponse(transform: (T) -> R): CommentPageResponse<R> {
+        return CommentPageResponse(
+            content = this.content.map(transform),
+            pageNumber = this.number,
+            pageSize = this.size,
+            totalElements = this.totalElements,
+            totalPages = this.totalPages,
+            isLast = this.isLast
+        )
+    }
+
 }

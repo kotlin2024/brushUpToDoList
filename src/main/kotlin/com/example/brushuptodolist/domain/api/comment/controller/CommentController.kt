@@ -3,6 +3,13 @@ package com.example.brushuptodolist.domain.api.comment.controller
 import com.example.brushuptodolist.domain.api.comment.dto.CommentResponse
 import com.example.brushuptodolist.domain.api.comment.dto.UpdateCommentRequest
 import com.example.brushuptodolist.domain.api.comment.service.CommentService
+import com.example.brushuptodolist.domain.api.post.dto.PostPageResponse
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,11 +21,17 @@ class CommentController(
     private val commentService: CommentService
 ) {
 
+
+    @Operation(summary = "페이지네이션 적용", responses = [
+        ApiResponse(description = "Successful Operation", responseCode = "200",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = PostPageResponse::class))])
+    ])
     @GetMapping("/{postId}")
     fun readComment(
-        @PathVariable postId:Long
+        @PathVariable postId:Long,
+        @PageableDefault(size = 10) pageable: Pageable,
     ): ResponseEntity<List<CommentResponse>> =
-        ResponseEntity.status(HttpStatus.OK).body(commentService.readComment(postId))
+        ResponseEntity.status(HttpStatus.OK).body(commentService.readComment(postId, pageable))
 
     @PostMapping("/{postId}")
     fun createComment(
