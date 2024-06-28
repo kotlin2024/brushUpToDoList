@@ -1,5 +1,6 @@
 package com.example.brushuptodolist.domain.api.post.controller
 
+import com.example.brushuptodolist.domain.api.post.dto.LikeResponse
 import com.example.brushuptodolist.domain.api.post.dto.PostPageResponse
 import com.example.brushuptodolist.domain.api.post.dto.PostResponse
 import com.example.brushuptodolist.domain.api.post.dto.UpdatePostRequest
@@ -52,4 +53,9 @@ class PostController(
     @DeleteMapping("/{postId}")
     fun deletePost(@PathVariable postId: Long): ResponseEntity<Unit> =
         ResponseEntity.status(HttpStatus.NO_CONTENT).body(postService.deletePost(postId))
+
+
+    @PutMapping("/{postId}/like")
+    fun likePost(@PathVariable postId: Long): ResponseEntity<LikeResponse> =
+        ResponseEntity.status(HttpStatus.OK).body(postService.likePost(postId))
 }

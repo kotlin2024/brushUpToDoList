@@ -10,4 +10,5 @@ data class PostResponse(
     val description:String,
     val createdAt: String,
     var updatedAt: String?,
+    var likes:Long,
 )

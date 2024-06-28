@@ -1,5 +1,7 @@
 package com.example.brushuptodolist.domain.user.entity
 
+import com.example.brushuptodolist.domain.api.comment.entity.Comment
+import com.example.brushuptodolist.domain.api.post.entity.Like
 import com.example.brushuptodolist.domain.user.dto.UserResponse
 import com.example.brushuptodolist.domain.user.dto.UserRole
 import jakarta.persistence.*
@@ -22,7 +24,9 @@ class User(
     @Column(name ="user_role")
     val userRole: UserRole,
 
-){
+
+
+    ){
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val userId: Long? =null
 
