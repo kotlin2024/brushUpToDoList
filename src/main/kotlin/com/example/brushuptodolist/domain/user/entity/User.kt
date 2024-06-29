@@ -25,6 +25,8 @@ class User(
     val userRole: UserRole,
 
 
+    @Column(name="verification")
+    var verification: Boolean? = null,
 
     ){
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

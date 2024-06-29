@@ -1,5 +1,6 @@
 package com.example.brushuptodolist.domain.authentication.controller
 
+import com.example.brushuptodolist.domain.authentication.dto.CheckVerificationCodeRequest
 import com.example.brushuptodolist.domain.authentication.dto.CheckingUserNameRequest
 import com.example.brushuptodolist.domain.authentication.dto.LoginRequest
 import com.example.brushuptodolist.domain.authentication.dto.SignUpRequest
@@ -29,4 +30,12 @@ class SignUpAndLoginController(
     @PostMapping("/check-duplicated-userName")
     fun checkingDuplicatedUserName(@RequestBody checkingUserNameRequest: CheckingUserNameRequest): ResponseEntity<String> =
         ResponseEntity.status(HttpStatus.OK).body(signUpAndLoginService.checkingDuplicateUserName(checkingUserNameRequest))
+
+
+    @PostMapping("/check-verify")
+    fun checkVerificationCode(
+        @RequestBody verificationCodeRequest: CheckVerificationCodeRequest
+    ):String{
+        return signUpAndLoginService.checkVerificationCode(verificationCodeRequest)
+    }
 }

@@ -3,6 +3,26 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  data:
+    redis:
+      host : redis-13975.c290.ap-northeast-1-2.ec2.redns.redis-cloud.com
+      port : 13975
+      password: 0Ht4Nkplqe1MXVpu1ygO9ibNNg6B5wMU
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: unityphj@gmail.com
+    password: jvje hxda azzy ooba
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
 
 
   datasource:

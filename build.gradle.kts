@@ -45,6 +45,11 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-validation") //validation 추가
 
+    implementation ("org.springframework.boot:spring-boot-starter-data-redis") // redis 추가
+    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive") // redis 추가
+
+    implementation ("org.springframework.boot:spring-boot-starter-mail") // smtp 추가
+
     implementation("org.springframework.boot:spring-boot-starter-aop")
 
     implementation("io.jsonwebtoken:jjwt-api:0.12.3")
