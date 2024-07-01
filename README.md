@@ -32,7 +32,7 @@ Spring Framework를 사용했으며 사용한 언어는 Kotlin 입니다.
 
 1. 브라우저에서 `http://localhost:8080`으로 접속합니다.
 2. ToDo 항목 및 댓글, 회원가입 로그인 기능을 사용할 수 있습니다.
-   ![swagger](https://github.com/kotlin2024/brushUpToDoList/blob/master/swagger.png)
+   ![swagger](https://github.com/kotlin2024/brushUpToDoList/blob/brushUp/swagger.png)
 
 **예제 사용법**
 ---
